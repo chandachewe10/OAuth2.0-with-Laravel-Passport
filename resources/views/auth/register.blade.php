@@ -26,6 +26,13 @@
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
+              <!-- NRC -->
+              <div class="mt-4">
+                <x-label for="nrc_number" :value="__('NRC (Without Slashes)')" />
+
+                <x-input id="nrc" class="block mt-1 w-full" type="number" name="nrc_number" required />
+            </div>
+
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />

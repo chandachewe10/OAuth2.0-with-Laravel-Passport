@@ -147,7 +147,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{{route('developers.application')}}">Create New App</a></li>
-                  <li><a class="dropdown-item" href="{{'developers/findOath/'.Auth::user()->email}}">My App</a></li>
+                  <li><a class="dropdown-item" href="{{'developers/findOath/'.encrypt(Auth::user()->nrc_number)}}">My App</a></li>
                   <li><hr class="dropdown-divider" /></li>
                   <li>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -451,11 +451,18 @@
                     >
                   </li>
                   <li class="sidebar-item">
-                    <a href="form-wizard.html" class="sidebar-link"
+                    <a href="{{'developers/findOath/'.encrypt(Auth::user()->nrc_number)}}" class="sidebar-link"
                       ><i class="mdi mdi-note-plus"></i
                       ><span class="hide-menu">View Created App </span></a
                     >
                   </li>
+                  <li class="sidebar-item">
+                    <a href="{{route('developers.create_token')}}" class="sidebar-link"
+                      ><i class="mdi mdi-note-plus"></i
+                      ><span class="hide-menu">Create token</span></a
+                    >
+                  </li>
+
                 </ul>
               </li>
               <li class="sidebar-item">
@@ -536,11 +543,24 @@
       </div>
 @endif
 
+
+<!-- Successs For Creating Bearer Token -->
+@if (session('Done'))
+      <div class="alert alert-success w-100">
+         {!! session('Done') !!}
+      </div>
+@endif
+
 <!--Successs Application for Personal Client-->
 @if (session('personalClientSuccess'))
       <div class="alert alert-success w-100">
          {!! session('personalClientSuccess') !!}
       </div>
+@endif
+
+<!--Error warning if you have not created any App-->
+@if(Session::has('warning'))
+<p class="alert alert-danger fa fa-exclamation-triangle w-100" role="danger"> {{ Session::get('warning') }}</p>
 @endif
 
 <!--Continue Now-->
@@ -635,7 +655,7 @@
                   <h1 class="font-light text-white">
                     <i class="mdi mdi-pencil"></i>
                   </h1>
-                  <h6 class="text-white">My App</h6>
+                  <h6 class="text-white"><a href="{{'developers/findOath/'.encrypt(Auth::user()->nrc_number)}}" style="color:white">My App</a></h6>
                 </div>
               </div>
             </div>
@@ -657,7 +677,7 @@
                   <h1 class="font-light text-white">
                     <i class="mdi mdi-alert"></i>
                   </h1>
-                  <h6 class="text-white">Settings</h6>
+                  <h6 class="text-white">settings</h6>
                 </div>
               </div>
             </div>

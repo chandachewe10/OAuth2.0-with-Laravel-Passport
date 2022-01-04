@@ -10,7 +10,7 @@
    
 <br>
     <label>Application Username</label>   
-    <input type="number" class="form-control input-sm" placeholder="Application Username" name="user_id">
+    <input type="number" class="form-control input-sm" value="{{Auth::user()->nrc_number}}" name="user_id" readonly>
     <br>
     <button class="btn btn-primary">Submit</button>
     </div>

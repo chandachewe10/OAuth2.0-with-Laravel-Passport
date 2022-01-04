@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\oath2;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use App\Http\Controllers\oath2;
 */
 
 
-Route::get('/', function () {
+Route::get('/index', function () {
     return view('welcome');
 });
 
@@ -98,11 +99,99 @@ Route::get('/create_personal', function(){
 
                 
 Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
-   $credentials = $clientRepository->forUser(1345);
-   return view('credentialsOath2',compact('credentials'));
-   //return $credentials;
+   $credentials = $clientRepository->forUser(decrypt($id));
+
+   //Check if the user is not found
+
+   if(is_null($credentials)){
+    Session::flash('warning', 'Whoops you have not created any App with us.'); 
+    return redirect('dashboard');
+
+     //Else redirect if found
+
+   }
+   else{
+    return view('credentialsOath2',compact('credentials'));
+   
+   }
+  
 
 });
+
+
+
+
+
+//Route for Creating the authorisation Id
+ //Set Up the Credentials here,You can Customise this in .env 
+  
+ Route::get('/redirect', function (Request $request) {
+   
+
+  $request->session()->put('state', $state = Str::random(40));
+  
+  $query = http_build_query([
+      'client_id' => $request->client_id,
+      'redirect_uri' =>  'http://localhost/Hackathon/Hackathon/public/developers/callback',   // Should be the same with one you used when you were making the client_id and client_secret
+      'response_type' => 'code',
+      'scope' => '',
+      'state' => $state,
+    
+  ]);
+  
+  //No need to define the oauth/authorise route at the end of this url, it is defined by laravel 
+  return redirect('http://localhost/Hackathon/Hackathon/public/oauth/authorize?'.$query);
+  
+  })->name('developers.redirect');   
+
+
+  
+  //Recieve The Authorisation code here , compare the states and proceed 
+  
+  Route::get('/callback', function (Request $request, clientRepository $clientRepository) {
+    //Retrive the users credentials (client_id and the client_secret)
+   $credentials = $clientRepository->forUser(777);
+
+    $state = $request->session()->pull('state');
+
+
+    throw_unless(
+        strlen($state) > 0 && $state === $request->state,
+        InvalidArgumentException::class
+    );
+ //No need to define the oauth/token route at the end of this url, it is defined by laravel 
+    $response = Http::asForm()->post('http://localhost/Hackathon/Hackathon/public/oauth/token', [
+        'grant_type' => 'authorization_code',
+        'client_id' => $credentials->id,
+        'client_secret' => $credentials->secret,
+        'redirect_uri' => 'http://localhost/Hackathon/Hackathon/public/developers/callback', // Should be the same with one you used when you were making the client_id and client_secret
+        'code' => $request->code,
+    ]);
+
+    $token = $response->object();
+   // return Auth::user();
+   // return view('bearerToken',compact('token'));
+    $user=User::where('email',"=",Auth::user()->email)->first();
+    $user->remember_token = $token->access_token;
+    $user->save();
+   
+    Session::flash('Done', 'Bearer Token Created Successfully.'); 
+    return redirect('dashboard');
+
+});
+
+
+
+
+
+
+/*This route will call the create_token view where a Developer will enter
+the Client id and the client secret in order  to create the Bearer Token */
+
+Route::get('/Bearer_token_creation', function(){
+  return view('create_token');
+  })->name('developers.create_token');
+
 
 
 
@@ -113,6 +202,18 @@ Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
 });
 
 
+
+
+
+
+
+  
+  
+
+
+
+
+    
 
 
 require __DIR__.'/auth.php';
