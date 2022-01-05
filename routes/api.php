@@ -1,16 +1,13 @@
 <?php
-
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MoMo_API;
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|public function __construct()
-    {
-        $this->middleware('auth:instructor')->except('attendanceShowToStudent');
-    }
+|
 
 
 | Here is where you can register API routes for your application. These
@@ -18,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-
-
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -32,3 +25,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/test', function () {
     return 'Hello World';
 })->middleware('auth:api');
+
+
+Route::group(['middleware'=>'web'], function(){
+
+
+//Call Controller method for making the uuid_v4 equivalent to the api user     
+Route::get('/uuidv4User', [MoMo_API::class, 'uuidv4User']);
+
+
+//Call Controller method for making the uuid_v4 for making payments     
+Route::get('/uuidv4Payments', [MoMo_API::class, 'uuidv4Payments']);
+
+});
