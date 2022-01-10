@@ -150,7 +150,7 @@ Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
   
   Route::get('/callback', function (Request $request, clientRepository $clientRepository) {
     //Retrive the users credentials (client_id and the client_secret)
-   $credentials = $clientRepository->forUser(777);
+    $credentials = $clientRepository->forUser(Auth::user()->nrc_number);
 
     $state = $request->session()->pull('state');
 
@@ -204,11 +204,6 @@ Route::get('/Bearer_token_creation', function(){
 
 
 
-
-
-
-  
-  
 
 
 

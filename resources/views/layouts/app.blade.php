@@ -18,7 +18,7 @@
 
         <!--Bootstrap-->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-         
+        @livewireStyles    
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -36,6 +36,6 @@
                 {{ $slot }}
             </main>
         </div>
-       
+        @livewireScripts
     </body>
 </html>

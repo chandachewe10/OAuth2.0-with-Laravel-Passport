@@ -27,14 +27,19 @@ Route::get('/test', function () {
 })->middleware('auth:api');
 
 
-Route::group(['middleware'=>'web'], function(){
+Route::group(['middleware'=>'auth:api'], function(){
 
 
 //Call Controller method for making the uuid_v4 equivalent to the api user     
-Route::get('/uuidv4User', [MoMo_API::class, 'uuidv4User']);
-
-
-//Call Controller method for making the uuid_v4 for making payments     
-Route::get('/uuidv4Payments', [MoMo_API::class, 'uuidv4Payments']);
+Route::post('/uuidv4User', [MoMo_API::class, 'uuidv4User']);
 
 });
+
+
+
+
+
+
+
+
+

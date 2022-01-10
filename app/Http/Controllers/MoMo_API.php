@@ -8,16 +8,16 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\payments_history;
 
 
 class MoMo_API extends Controller
 
 {
     
-    public function uuidv4User(){
-     
-       
+    public function uuidv4User(Request $request){
+      
+           
        
      /*Making the unique UUID_V4 Equivalent to the API user 
      This Recource ID for the API user to be created is  
@@ -109,6 +109,16 @@ $Token = Http::withHeaders([
  can be validated by using the GET /requesttopay/<resourceId> 
  */
 
+//Payer Data
+$payer = json_decode(json_encode($request->payer));
+
+//PartyId Type
+$msisdn = $payer->partyIdType;
+
+//parytId
+$number = $payer->partyId;
+
+
  
 $requestToPay = Http::withHeaders([
     "Content-Type" => "application/json",
@@ -122,15 +132,15 @@ $requestToPay = Http::withHeaders([
     
 
    
-    "amount" => "19000",
-    "currency" => "EUR",
-    "externalId" => "19939032",
+    "amount" => "$request->amount",
+    "currency" => "$request->currency",
+    "externalId" => "$request->externalId",
     "payer" => [
-      "partyIdType" => "MSISDN",
-      "partyId" => "092882929",
+      "partyIdType" => "$msisdn",
+      "partyId" => "$number",
     ],  
-    "payerMessage" => "Loan Payments",
-    "payeeNote" => "Payments Made Successfull",
+    "payerMessage" => "$request->payerMessage",
+    "payeeNote" => "$request->payeeMessage",
   
 
 
@@ -138,6 +148,21 @@ $requestToPay = Http::withHeaders([
 ]);
 
 
+//If the payment has been accepted (202) enter the records of payments in the database  
+if($requestToPay->status() == 202){
+   
+    $payments = payments_history::create([
+      
+    "amount" => "$request->amount",
+    "currency" => "$request->currency",
+    "externalId" => "$request->externalId",
+    "partyIdType" => "$msisdn",
+    "partyId" => "$number",
+    "payerMessage" => "$request->payerMessage",
+    "payeeMessage" => "$request->payeeNote",  
+    ]);
+
+}
 
 
 /*This operation is used to get the status of a request to pay. 
@@ -154,9 +179,9 @@ $paymentStatus = Http::withHeaders([
 
 
 //GETTING THE STATUS OF PAYMENT WHETHER IT WAS SUCCESSFULL OR NOT 
-$status = $paymentStatus->object();
-return $status;
-;
+return $status = $paymentStatus;
+
+
 
 
 
