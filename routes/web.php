@@ -196,6 +196,30 @@ Route::get('/Bearer_token_creation', function(){
 
 
 
+  
+
+/*This route will call the bearerToken blade view where a Developer will see
+the Token which was generated for him/her the blade will show the type of token 
+and the expiry date of that particular type of token*/
+
+Route::get('/token_view', function(){
+  $token = Auth::user()->remember_token;
+
+  if(is_null($token)){
+    Session::flash('token_warning', 'Whooops you have not created any Token with us.'); 
+    return redirect('dashboard');
+   
+  }
+  else{
+    return view('bearerToken', compact("token"));
+  }
+  
+  })->name('developers.view_token');
+
+
+
+
+
 
      });
 

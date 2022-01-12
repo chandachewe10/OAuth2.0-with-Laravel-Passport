@@ -150,7 +150,7 @@
                   <li><a class="dropdown-item" href="{{'developers/findOath/'.encrypt(Auth::user()->nrc_number)}}">My App</a></li>
                   <li><hr class="dropdown-divider" /></li>
                   <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{{route('developers.view_token')}}">View Token</a>
                   </li>
                 </ul>
               </li>
@@ -561,6 +561,11 @@
 <!--Error warning if you have not created any App-->
 @if(Session::has('warning'))
 <p class="alert alert-danger fa fa-exclamation-triangle w-100" role="danger"> {{ Session::get('warning') }}</p>
+@endif
+
+<!--Error warning if token does not exist-->
+@if(Session::has('token_warning'))
+<p class="alert alert-danger fa fa-exclamation-triangle w-100" role="danger"> {{ Session::get('token_warning') }}</p>
 @endif
 
 <!--Continue Now-->
