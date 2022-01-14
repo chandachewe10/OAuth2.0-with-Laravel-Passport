@@ -132,7 +132,7 @@ Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
   
   $query = http_build_query([
       'client_id' => $request->client_id,
-      'redirect_uri' =>  'http://localhost/Hackathon/Hackathon/public/developers/callback',   // Should be the same with one you used when you were making the client_id and client_secret
+      'redirect_uri' =>  config('momoAPI.localhost').'/developers/callback', // Should be the same with one you used when you were making the client_id and client_secret
       'response_type' => 'code',
       'scope' => '',
       'state' => $state,
@@ -140,7 +140,7 @@ Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
   ]);
   
   //No need to define the oauth/authorise route at the end of this url, it is defined by laravel 
-  return redirect('http://localhost/Hackathon/Hackathon/public/oauth/authorize?'.$query);
+  return redirect(config('momoAPI.localhost').'/oauth/authorize?'.$query);
   
   })->name('developers.redirect');   
 
@@ -160,11 +160,11 @@ Route::get('findOath/{id}', function (clientRepository $clientRepository,$id) {
         InvalidArgumentException::class
     );
  //No need to define the oauth/token route at the end of this url, it is defined by laravel 
-    $response = Http::asForm()->post('http://localhost/Hackathon/Hackathon/public/oauth/token', [
+    $response = Http::asForm()->post(config('momoAPI.localhost').'/oauth/token', [
         'grant_type' => 'authorization_code',
         'client_id' => $credentials->id,
         'client_secret' => $credentials->secret,
-        'redirect_uri' => 'http://localhost/Hackathon/Hackathon/public/developers/callback', // Should be the same with one you used when you were making the client_id and client_secret
+        'redirect_uri' =>config('momoAPI.localhost').'/developers/callback', // Should be the same with one you used when you were making the client_id and client_secret
         'code' => $request->code,
     ]);
 

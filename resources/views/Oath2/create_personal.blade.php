@@ -7,7 +7,7 @@
         <input type="text" name="app_name" class="form-control input-sm"  placeholder="App Name">
     <br>
         <label>Enter Redirect Uri</label>
-        <input type="text" class="form-control input-sm" placeholder="Enter redirect url" name="redirect_uri">
+        <input type="text" class="form-control input-sm" value="{{config('momoAPI.localhost').'/developers/callback'}}" name="redirect_uri" readonly>
    
 <br>
     <label>Application Username</label>   

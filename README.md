@@ -1,3 +1,30 @@
+# OAuth2.0-with-Laravel-Passport
+This application is made in helping developers in Issuing Access Tokens 
+(CLIENT_ID, CLIENT_SECRET, AUTHORISATION_CODE AND BEARER TOKEN) to third applications 
+using OAuth2.0 In Laravel Passport. 
+Using OAuth2 with authorization codes is how most developers are familiar with OAuth2. 
+
+# Use Case
+1. Create the Database name in `.env` and Run the migrations `php artisan migrate` 
+2. In your `.env` file put your base url on `LOCALHOST`. E.g 
+if your application is located in htdocs then your base url will be
+`http://localhost/OAuth2.0-with-Laravel-Passport/public`.
+3. Do the registration with the register url as usual and you are good to go to the dashboard.
+4. The dashboard is user friendly you can check were you can craete an app, view the app you created
+and creating the token. 
+5. To create the token click expand the side bar Menu and click `Application` on top and select the feature on drop down.
+6. To view the created token click `Applications` on top and select the faeture on dropdown. 
+  
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
