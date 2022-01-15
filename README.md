@@ -4,6 +4,12 @@ This application is made in helping developers in Issuing Access Tokens
 using OAuth2.0 In Laravel Passport. 
 Using OAuth2 with authorization codes is how most developers are familiar with OAuth2. 
 
+# Installation
+1. Clone this repo
+2. `composer update`
+3. `php artisan key:generate`
+4. Create .env file and put LOCALHOST on bottom if not present
+
 # Use Case
 1. Create the Database name in `.env` and Run the migrations `php artisan migrate` 
 2. In your `.env` file put your base url on `LOCALHOST`. E.g 
