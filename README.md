@@ -8,7 +8,7 @@ Using OAuth2 with authorization codes is how most developers are familiar with O
 1. Clone this repo
 2. `composer update`
 3. `php artisan key:generate`
-4. Create .env file and put LOCALHOST on bottom if not present
+4. Create .env file and put `LOCALHOST=` on bottom if not present
 
 # Use Case
 1. Create the Database name in `.env` and Run the migrations `php artisan migrate` 
@@ -16,10 +16,10 @@ Using OAuth2 with authorization codes is how most developers are familiar with O
 if your application is located in htdocs then your base url will be
 `http://localhost/OAuth2.0-with-Laravel-Passport/public`.
 3. Do the registration with the register url as usual and you are good to go to the dashboard.
-4. The dashboard is user friendly you can check were you can craete an app, view the app you created
+4. The dashboard is user friendly you can check were you can create an app, view the app you created
 and creating the token. 
-5. To create the token click expand the side bar Menu and click `Application` on top and select the feature on drop down.
-6. To view the created token click `Applications` on top and select the faeture on dropdown. 
+5. To create the token expand the side bar Menu and click `Application` and select the feature on drop down.
+6. To view the created token click `Applications` on top, and select the feature on dropdown. 
   
 
 
